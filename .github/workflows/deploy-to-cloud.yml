@@ -41,15 +41,15 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: kobulwidodo/talentgrowt-api:latest
+          tags: kobulwidodo/agrokan-api:latest
 
-      - name: Deploy to EC2
+      - name: Deploy to CLOUD
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST_AWS }}
-          username: ${{ secrets.USERNAME_AWS }}
-          key: ${{ secrets.KEY_AWS }}
+          host: ${{ secrets.HOST_CLOUD }}
+          username: ${{ secrets.USERNAME_CLOUD }}
+          password: ${{ secrets.PASS_CLOUD }}
           script: |
-            sudo docker pull kobulwidodo/talentgrowt-api:latest
-            sudo docker container create --name go-app-talentgrowth -e DB_HOST=${{ secrets.DB_HOST }} -e DB_USER=${{ secrets.DB_USER }} -e DB_PASS=${{ secrets.DB_PASS }} -e DB_NAME=${{ secrets.DB_NAME }} -e DB_PORT=${{ secrets.DB_PORT }} -e JWT_KEY=${{ secrets.JWT_KEY }} -e SSL_MODE=${{ secrets.SSL_MODE }} -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_REGION=${{ secrets.AWS_REGION }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }} -e BUCKET_NAME=${{ secrets.BUCKET_NAME }} -p 8080:8080 kobulwidodo/talentgrowt-api:latest
-            sudo docker container start go-app-talentgrowth
+            sudo docker pull kobulwidodo/agrokan-api:latest
+            sudo docker container create --name go-app-agrokan -e DB_HOST=${{ secrets.DB_HOST }} -e DB_USER=${{ secrets.DB_USER }} -e DB_PASS=${{ secrets.DB_PASS }} -e DB_NAME=${{ secrets.DB_NAME }} -e DB_PORT=${{ secrets.DB_PORT }} -e JWT_KEY=${{ secrets.JWT_KEY }} -e SSL_MODE=${{ secrets.SSL_MODE }} -p 8080:8080 kobulwidodo/agrokan-api:latest
+            sudo docker container start go-app-agrokan
